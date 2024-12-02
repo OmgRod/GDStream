@@ -40,17 +40,6 @@ bool ChatMessage::init(const std::string& message) {
     CCClippingNode* clippingNode = CCClippingNode::create();
     clippingNode->setAlphaThreshold(0.05f); // Ensures anti-aliasing for rounded corners
 
-    // Stencil with rounded corners
-    CCDrawNode* stencil = CCDrawNode::create();
-    ccColor4F white = { 1, 1, 1, 1 }; // White for visible stencil
-    stencil->drawSolidRoundedRect(
-        { 0, 0 },
-        { spriteSize, spriteSize },
-        cornerRadius,
-        white
-    );
-    clippingNode->setStencil(stencil);
-
     // Profile picture sprite
     CCSprite* pfp = CCSprite::create("unkProfilePicture.png"_spr);
     if (pfp) {
