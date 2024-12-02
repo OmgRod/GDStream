@@ -1,0 +1,44 @@
+{
+	"geode": "4.0.1",
+	"gd": {
+		"win": "2.2074",
+		"android": "2.2074",
+		"mac": "2.2074",
+		"ios": "2.2074"
+	},
+	"id": "omgrod.gdstream",
+	"name": "GDStream",
+	"version": "v1.0.0",
+	"developer": "OmgRod",
+	"description": "Share live gameplay with your audience in GD!",
+	"settings": {
+		"chat": {
+			"name": "Chat Enabled",
+			"type": "bool",
+			"default": true,
+			"description": "Enable chat in-game."
+		}
+	},
+	"dependencies": [
+		{
+			"id": "eclipse.ffmpeg-api",
+			"importance": "required",
+			"version": ">=1.1.2"
+		}
+	],
+	"resources": {
+		"sprites": [
+			"res/spr/*.png"
+		],
+		"fonts": {
+			"montserrat": {
+				"path": "res/fnt/montserrat.ttf",
+				"size": 48
+			},
+			"montserrat-bold": {
+				"path": "res/fnt/montserrat-bold.ttf",
+				"size": 48
+			}
+		}
+	}
+}
