@@ -14,9 +14,15 @@ class $modify(MyMenuLayer, MenuLayer) {
 
         auto menu = this->getChildByID("bottom-menu");
 
+        auto cameraBtn = CircleButtonSprite::create(
+            CCSprite::create("cameraIcon01.png"_spr),
+            CircleBaseColor::Green,
+            CircleBaseSize::MediumAlt
+        );
+
         auto chatButton = CCMenuItemSpriteExtra::create(
-            CCSprite::create("menuStreamBtn.png"_spr),
-            nullptr,
+            cameraBtn,
+            this,
             menu_selector(MyMenuLayer::onButtonClick)
         );
 
