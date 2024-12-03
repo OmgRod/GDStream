@@ -21,7 +21,7 @@
 			"name": "Chat Enabled",
 			"type": "bool",
 			"default": true,
-			"description": "Enable chat in-game by default. You can still toggle the chat by pressing <cr>C</c>"
+			"description": "Enable chat in-game by default. You can still toggle the chat by pressing \"<cr>C</c>\" (unavailable for Mac Arm)"
 		},
 		"pfp": {
 			"name": "Profile Picture",
@@ -40,7 +40,7 @@
 			"id": "geode.custom-keybinds",
 			"importance": "required",
 			"version": ">=1.10.0",
-			"platforms": ["macos", "win"]
+			"platforms": ["mac-intel", "win"]
 		}
 	],
 	"resources": {

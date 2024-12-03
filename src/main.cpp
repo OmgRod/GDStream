@@ -39,7 +39,7 @@ class $modify(MyPlayLayer, PlayLayer) {
     }
 };
 
-#if defined(GEODE_IS_WINDOWS) || defined(GEODE_IS_MACOS)
+#if defined(GEODE_IS_WINDOWS) || defined(GEODE_IS_INTEL_MACOS)
 
 #include <geode.custom-keybinds/include/Keybinds.hpp>
 using namespace keybinds;
