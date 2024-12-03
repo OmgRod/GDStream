@@ -1,5 +1,6 @@
 #include <Geode/Geode.hpp>
 #include <Geode/modify/PlayLayer.hpp>
+
 #include "chatbox/ChatLayer.hpp"
 
 using namespace geode::prelude;
@@ -37,3 +38,20 @@ class $modify(MyPlayLayer, PlayLayer) {
 		PlayLayer::onQuit();
     }
 };
+
+#if defined(GEODE_IS_WINDOWS) || defined(GEODE_IS_MACOS)
+
+#include <geode.custom-keybinds/include/Keybinds.hpp>
+using namespace keybinds;
+
+$execute {
+    BindManager::get()->registerBindable({
+        "chat-toggle"_spr,
+        "Toggle Chat",
+        "Toggles the chat's visibility in-game.",
+        { Keybind::create(KEY_C, Modifier::None) },
+        "GDStream/Chat"
+    });
+}
+
+#endif

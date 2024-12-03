@@ -36,10 +36,6 @@ bool ChatMessage::init(const std::string& message) {
     float padding = contentHeight * 0.05f;
     float cornerRadius = spriteSize * 0.15f; // 15% corner radius
 
-    // Rounded corners using a stencil
-    CCClippingNode* clippingNode = CCClippingNode::create();
-    clippingNode->setAlphaThreshold(0.05f); // Ensures anti-aliasing for rounded corners
-
     // Profile picture sprite
     CCSprite* pfp = CCSprite::create("unkProfilePicture.png"_spr);
     if (pfp) {
@@ -51,10 +47,6 @@ bool ChatMessage::init(const std::string& message) {
 
         // Set position with padding
         pfp->setAnchorPoint({ 0.f, 0.f });
-        clippingNode->setPosition({ padding, padding });
-        clippingNode->addChild(pfp);
-
-        this->addChild(clippingNode);
     }
 
     // Chat message label
