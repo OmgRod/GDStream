@@ -17,7 +17,12 @@
 			"type": "bool",
 			"default": true,
 			"description": "Enable chat in-game."
-		}
+		},
+  "pfp": {
+   "name": "Profile Picture",
+   "type": "file",
+   "description": "Set your custom profile picture for chat and accounts"
+  }
 	},
 	"dependencies": [
 		{
