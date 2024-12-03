@@ -21,6 +21,8 @@ bool ChatLayer::init() {
     if (!CCLayer::init())
         return false;
 
+    this->setID("ChatLayer");
+
     auto winSize = CCDirector::sharedDirector()->getWinSize();
 
     CCScale9Sprite* background = CCScale9Sprite::create("chatSquare_01.png"_spr);
