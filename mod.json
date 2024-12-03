@@ -8,7 +8,7 @@
 	},
 	"id": "omgrod.gdstream",
 	"name": "GDStream",
-	"version": "v1.0.0",
+	"version": "v1.0.0-beta.1",
 	"developer": "OmgRod",
 	"description": "Share live gameplay with your audience in GD!",
 	"settings": {

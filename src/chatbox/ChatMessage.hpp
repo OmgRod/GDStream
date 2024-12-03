@@ -16,7 +16,7 @@ public:
 
 private:
     CCLabelTTF* m_label;
-    CCLabelBMFont* m_chatMessage;
+    TextArea* m_chatMessage;
     CCLabelBMFont* m_username;
 };
 

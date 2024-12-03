@@ -29,6 +29,7 @@ bool ChatLayer::init() {
     background->setContentSize({ winSize.width * 0.3f, winSize.height * 0.9f });
     background->setPosition({ winSize.width * 0.65f, winSize.height * 0.05f });
     background->setAnchorPoint({ 0.f, 0.f });
+    background->setID("background");
 
     auto clippingNode = CCClippingNode::create();
     clippingNode->setStencil(background);
@@ -40,7 +41,7 @@ bool ChatLayer::init() {
     // label->setPosition({ background->getContentSize().width / 2, background->getContentSize().height / 2 });
     // clippingNode->addChild(label);
 
-    ChatMessage* msg = ChatMessage::create("Test Message", "OmgRod");
+    ChatMessage* msg = ChatMessage::create("Test Message 1 2 3 Test message. By the way Skibidi Toilet sucks imo.", "OmgRod");
     clippingNode->addChild(msg);
 
     this->addChild(clippingNode);
