@@ -41,7 +41,7 @@ bool ChatLayer::init() {
     // label->setPosition({ background->getContentSize().width / 2, background->getContentSize().height / 2 });
     // clippingNode->addChild(label);
 
-    ChatMessage* msg = ChatMessage::create("Test Message 1 2 3 Test message. By the way Skibidi Toilet sucks imo.", "OmgRod");
+    ChatMessage* msg = ChatMessage::create("Test Message Test Message Test Message", "OmgRod");
     clippingNode->addChild(msg);
 
     this->addChild(clippingNode);
