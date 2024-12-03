@@ -40,7 +40,7 @@
 			"id": "geode.custom-keybinds",
 			"importance": "required",
 			"version": ">=1.10.0",
-			"platforms": ["mac", "win"]
+			"platforms": ["macos", "win"]
 		}
 	],
 	"resources": {
