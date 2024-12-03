@@ -1,3 +1,3 @@
-# Template Mod
+# <cj>GD</c><cl>Stream</c>
 
-Edit about.md to change this
+This mod allows people to <cj>make</c> and <cr>view</c> Geometry Dash livestreams.
