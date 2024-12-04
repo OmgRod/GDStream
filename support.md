@@ -1,1 +1,1 @@
-(Ko-fi)[ko-fi.com/omgrod]
+[Ko-fi](ko-fi.com/omgrod)
