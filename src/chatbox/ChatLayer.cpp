@@ -41,7 +41,7 @@ bool ChatLayer::init() {
     // label->setPosition({ background->getContentSize().width / 2, background->getContentSize().height / 2 });
     // clippingNode->addChild(label);
 
-    const char* playerName = GameManager::SharedState()->m_playerName().c_str();
+    const char* playerName = GameManager::sharedState()->m_playerName().c_str();
 
     ChatMessage* msg = ChatMessage::create("Test Message Test Message Test Message", playerName);
     clippingNode->addChild(msg);
