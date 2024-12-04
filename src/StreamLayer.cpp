@@ -1,4 +1,5 @@
 #include <Geode/Geode.hpp>
+#include <Geode/ui/ScrollLayer.hpp>
 #include "StreamLayer.hpp"
 
 using namespace geode::prelude;
