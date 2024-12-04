@@ -21,7 +21,18 @@
 			"name": "Chat Enabled",
 			"type": "bool",
 			"default": true,
-			"description": "Enable chat in-game by default. You can still toggle the chat by pressing \"<cr>C</c>\" (toggle unavailable for MacOS)"
+			"description": "Enable chat in-game by default. You can still toggle the chat by pressing \"<cr>Shift+C</c>\" (toggle unavailable for MacOS)"
+		},
+		"auto-toggle-chat": {
+			"name": "Auto-Toggle",
+			"type": "bool",
+			"default": true,
+			"description": "Automatically toggle chat visibility when opening a level."
+		},
+		"title2": {
+			"type": "title",
+			"name": "Profile Settings",
+    		"description": "The settings below modify the appearance of your profile."
 		},
 		"pfp": {
 			"name": "Profile Picture",

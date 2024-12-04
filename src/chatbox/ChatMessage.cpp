@@ -20,6 +20,10 @@ ChatMessage* ChatMessage::create(const std::string& message, const std::string& 
     return nullptr;
 }
 
+void ChatMessage::openProfile(CCObject*) {
+    ProfilePage::create(this->m_userID, false)->show();
+}
+
 bool ChatMessage::init(const std::string& message, const std::string& username) {
     if (!CCNode::init()) {
         return false;
@@ -34,6 +38,8 @@ bool ChatMessage::init(const std::string& message, const std::string& username) 
     float spriteSize = contentHeight * 0.85f;
     float padding = contentHeight * 0.075f;
     float cornerRadius = spriteSize * 0.15f; // 15% corner radius
+
+    m_userID = GameManager::sharedState()->m_playerUserID;
 
     m_chatMessage = TextArea::create(
         message.c_str(), // The actual message
@@ -59,16 +65,17 @@ bool ChatMessage::init(const std::string& message, const std::string& username) 
     float messageHeight = m_chatMessage->getContentHeight() + winSize.height * 0.05;
 
     m_username = CCLabelBMFont::create(username.c_str(), "montserrat-bold.fnt"_spr);
-    if (m_username) {
-        m_username->setAnchorPoint({ 0.f, 0.f });
+    auto usernameBtn = CCMenuItemSpriteExtra::create(m_username, this, menu_selector(ChatMessage::openProfile));
+    if (usernameBtn) {
+        usernameBtn->setAnchorPoint({ 0.f, 0.f });
 
-        m_username->setPosition({
+        usernameBtn->setPosition({
             spriteSize + padding * 2,
             padding + messageHeight
         });
 
-        m_username->setID("username");
-        this->addChild(m_username);
+        usernameBtn->setID("username");
+        this->addChild(usernameBtn);
     }
 
     CCSprite* pfp = CCSprite::create("unkProfilePicture.png"_spr);
