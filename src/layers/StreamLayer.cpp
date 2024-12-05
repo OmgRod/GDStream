@@ -118,6 +118,7 @@ bool StreamLayer::init() {
         menu_selector(StreamLayer::onProfile)
     );
     profileBtn->setID("profile-btn");
+    profileBtn->getChildByType<CircleButtonSprite*>(0)->getChildByType<CCSprite*>(0)->setScale(0.75f);
     topbar->addChild(profileBtn);
 
     menu->updateLayout();
