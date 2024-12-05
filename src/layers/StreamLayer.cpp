@@ -1,12 +1,18 @@
 #include <Geode/Geode.hpp>
 #include <Geode/ui/ScrollLayer.hpp>
+#include <Geode/ui/ScrollLayer.hpp>
+#include <Geode/ui/Layout.hpp>
+#include <Geode/ui/GeodeUI.hpp>
 #include "StreamLayer.hpp"
-#include "Geode/ui/Layout.hpp"
 
 using namespace geode::prelude;
 
 void StreamLayer::onBack(CCObject*) {
     StreamLayer::keyBackClicked();
+}
+
+void StreamLayer::onSettings(CCObject*) {
+    openSettingsPopup(Mod::get());
 }
 
 void StreamLayer::onCreate(CCObject*) {
@@ -74,8 +80,16 @@ bool StreamLayer::init() {
         this,
         menu_selector(StreamLayer::onCreate)
     );
-    addBtn->setID("back-btn");
+    addBtn->setID("add-btn");
     topbar->addChild(addBtn);
+
+    auto settingsBtn = CCMenuItemSpriteExtra::create(
+        CCSprite::createWithSpriteFrameName("GJ_optionsBtn_001.png"),
+        this,
+        menu_selector(StreamLayer::onSettings)
+    );
+    settingsBtn->setID("settings-btn");
+    topbar->addChild(settingsBtn);
 
     menu->updateLayout();
     this->addChild(menu);
