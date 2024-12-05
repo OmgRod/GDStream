@@ -26,7 +26,7 @@
 		"auto-toggle-chat": {
 			"name": "Auto-Toggle",
 			"type": "bool",
-			"default": true,
+			"default": false,
 			"description": "Automatically toggle chat visibility when opening a level."
 		},
 		"title2": {

@@ -1,7 +1,7 @@
 #include <Geode/Geode.hpp>
 #include <Geode/modify/PlayLayer.hpp>
 
-#include "chatbox/ChatLayer.hpp"
+#include "layers/chatbox/ChatLayer.hpp"
 
 using namespace geode::prelude;
 

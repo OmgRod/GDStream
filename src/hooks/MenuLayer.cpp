@@ -2,7 +2,7 @@
 #include <Geode/Geode.hpp>
 #include <Geode/modify/MenuLayer.hpp>
 
-#include "../StreamLayer.hpp"
+#include "../layers/StreamLayer.hpp"
 
 using namespace geode::prelude;
 
