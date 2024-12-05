@@ -32,7 +32,7 @@ bool ChatMessage::init(const std::string& message, const std::string& username) 
     auto winSize = CCDirector::sharedDirector()->getWinSize();
     this->setAnchorPoint({ 0.f, 0.f });
     this->setContentSize({ winSize.width * 0.3f, winSize.height * 0.1f });
-    this->setPosition({ winSize.width * 0.65f, winSize.height * 0.05f });
+    this->setPosition({ winSize.width * 0.f, winSize.height * 0.f });
 
     float contentHeight = this->getContentHeight();
     float spriteSize = contentHeight * 0.85f;
@@ -69,13 +69,16 @@ bool ChatMessage::init(const std::string& message, const std::string& username) 
     if (usernameBtn) {
         usernameBtn->setAnchorPoint({ 0.f, 0.f });
 
-        usernameBtn->setPosition({
+        // Create a menu and add the username button
+        auto menu = CCMenu::createWithItem(usernameBtn);
+        menu->setAnchorPoint({ 0.f, 0.f });
+        menu->setPosition({
             spriteSize + padding * 2,
             padding + messageHeight
         });
 
-        usernameBtn->setID("username");
-        this->addChild(usernameBtn);
+        // Set the menu position so that the button is in the same position
+        this->addChild(menu);
     }
 
     CCSprite* pfp = CCSprite::create("unkProfilePicture.png"_spr);

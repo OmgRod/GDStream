@@ -21,13 +21,17 @@ bool ChatLayer::init() {
     if (!CCLayer::init())
         return false;
 
-    this->setID("ChatLayer");
-
     auto winSize = CCDirector::sharedDirector()->getWinSize();
+
+    setTouchEnabled(true);
+
+    this->setID("ChatLayer");
+    this->setContentSize({ winSize.width * 0.3f, winSize.height * 0.9f });
+    this->setPosition({ winSize.width * 0.65f, winSize.height * 0.05f });
 
     CCScale9Sprite* background = CCScale9Sprite::create("chatSquare_01.png"_spr);
     background->setContentSize({ winSize.width * 0.3f, winSize.height * 0.9f });
-    background->setPosition({ winSize.width * 0.65f, winSize.height * 0.05f });
+    background->setPosition({ winSize.width * 0.f, winSize.height * 0.f });
     background->setAnchorPoint({ 0.f, 0.f });
     background->setID("background");
 
