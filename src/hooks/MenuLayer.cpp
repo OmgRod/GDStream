@@ -37,6 +37,6 @@ class $modify(MyMenuLayer, MenuLayer) {
     void onButtonClick(CCObject* sender) {
         auto scene = StreamLayer::scene();
         auto transition = CCTransitionFade::create(0.5f, scene);
-        CCDirector::sharedDirector()->replaceScene(transition);
+        CCDirector::sharedDirector()->pushScene(transition);
     }
 };
