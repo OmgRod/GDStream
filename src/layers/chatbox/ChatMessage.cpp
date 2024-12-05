@@ -39,7 +39,7 @@ bool ChatMessage::init(const std::string& message, const std::string& username) 
     float padding = contentHeight * 0.075f;
     float cornerRadius = spriteSize * 0.15f; // 15% corner radius
 
-    m_userID = GameManager::sharedState()->m_playerUserID;
+    m_userID = GJAccountManager::sharedState()->m_accountID;
 
     m_chatMessage = TextArea::create(
         message.c_str(), // The actual message

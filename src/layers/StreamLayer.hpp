@@ -1,16 +1,20 @@
-#pragma once
+#include "cocos2d.h"
 
-#include <Geode/Geode.hpp>
-
-using namespace geode::prelude;
+using namespace cocos2d;
 
 class StreamLayer : public CCLayer {
 public:
-    bool init();
+    StreamLayer();
+    virtual ~StreamLayer();
+    bool init() override;
+    static StreamLayer* create();
+    static CCScene* scene();
     void onBack(CCObject*);
     void onSettings(CCObject*);
     void onCreate(CCObject*);
+    void onProfile(CCObject*);
     void keyBackClicked() override;
-    static StreamLayer* create();
-    static CCScene* scene();
+
+private:
+    int m_userID;
 };
