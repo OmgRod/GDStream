@@ -53,10 +53,11 @@ bool StreamLayer::init() {
     corner2->setID("corner2");
     menu->addChild(corner2);
 
-    auto gameBgSpr = CCSprite::create("game_bg_01_001.png");
-    gameBgSpr->setScale(2.f);
+    auto gameBgSpr = CCSprite::create("GJ_gradientBG.png");
+    gameBgSpr->setScaleX(50.f);
+    gameBgSpr->setScaleY(2.f);
     gameBgSpr->setZOrder(-1);
-    gameBgSpr->setPositionY(winSize.height / -2);
+    gameBgSpr->setColor({ 0, 102, 255 });
     gameBgSpr->setID("gameBgSpr");
     menu->addChild(gameBgSpr);
 
