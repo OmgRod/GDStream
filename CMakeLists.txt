@@ -15,11 +15,6 @@ add_library(${PROJECT_NAME} SHARED ${SOURCES})
 # Include the CPM package manager
 include("cmake/CPM.cmake")
 
-# Add and link IXWebSocket
-CPMAddPackage("gh:cocos2d/cocos2d-x#v4")
-target_link_libraries(${PROJECT_NAME} ixwebsocket)
-target_include_directories(${PROJECT_NAME} PRIVATE ${ixwebsocket_INCLUDE_DIRS})
-
 # Ensure Geode SDK environment variable is defined
 if (NOT DEFINED ENV{GEODE_SDK})
     message(FATAL_ERROR "Unable to find Geode SDK! Please define GEODE_SDK environment variable to point to Geode")
