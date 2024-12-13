@@ -1,9 +1,17 @@
-#include <Geode/Geode.hpp>
 #include "Stream.hpp"
 #include "config.hpp"
+#include <Geode/Geode.hpp>
+#include <eclipse.ffmpeg-api/include/libavformat/avformat.h>
 
 using namespace geode::prelude;
 
-bool Stream::init(int accID, std::string streamName) {
-    auto endpoint = ServerConfig->m_serverEndpoint;
+bool Stream::init(int accID, const std::string& streamName) {
+    auto endpoint = ServerConfig::get()->m_serverEndpoint;
+    log::debug("Initializing Stream: Account ID = {}, Stream Name = {}, Endpoint = {}", accID, streamName, endpoint);
+    return true;
+}
+
+$execute {
+    auto accountID = GJAccountManager::sharedState()->m_accountID;
+    Stream::init(accountID, "Test Livestream");
 }

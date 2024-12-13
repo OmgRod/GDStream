@@ -1,8 +1,8 @@
-#include <Geode/Geode.hpp>
-#include "config.hpp"
+#pragma once
 
-using namespace geode::prelude;
+#include <string>
 
 class Stream {
-    bool init(int accID, std::string streamName);
-}
+public:
+    static bool init(int accID, const std::string& streamName);
+};
