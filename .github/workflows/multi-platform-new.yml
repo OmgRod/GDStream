@@ -42,9 +42,21 @@ jobs:
         run: |
           brew install ffmpeg
 
-      - name: Set up FFmpeg for Android
+      - name: Set up Android SDK for Android32 and Android64
         if: matrix.config.name == 'Android32' || matrix.config.name == 'Android64'
         run: |
+          # Install Android SDK tools
+          sudo apt-get update
+          sudo apt-get install -y android-sdk
+
+          # Set up the ANDROID_SDK_HOME environment variable
+          echo "ANDROID_SDK_HOME=/usr/lib/android-sdk" >> $GITHUB_ENV
+          
+          # Set the paths for Android SDK tools
+          echo "ANDROID_HOME=/usr/lib/android-sdk" >> $GITHUB_ENV
+          echo "PATH=$PATH:/usr/lib/android-sdk/tools:/usr/lib/android-sdk/platform-tools" >> $GITHUB_ENV
+
+          # Clone and build FFmpeg for Android
           git clone https://github.com/EclipseMenu/ffmpeg-android-maker/
           cd ffmpeg-android-maker
           ./ffmpeg-android-maker.sh --enable-libaom --enable-libvpx --enable-libx264 --enable-libx265 --android-api-level=24
