@@ -21,8 +21,8 @@ endif()
 CPMAddPackage("gh:zaphoyd/websocketpp#master")
 target_include_directories(${PROJECT_NAME} PRIVATE ${websocketpp_SOURCE_DIR})
 
-CPMAddPackage("gh:FFmpeg/FFmpeg#master")
-target_link_libraries(${PROJECT_NAME} ffmpeg)
+# CPMAddPackage("gh:FFmpeg/FFmpeg#master")
+# target_link_libraries(${PROJECT_NAME} ffmpeg)
 
 add_subdirectory($ENV{GEODE_SDK} ${CMAKE_CURRENT_BINARY_DIR}/geode)
 
