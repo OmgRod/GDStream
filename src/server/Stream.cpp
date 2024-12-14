@@ -1,7 +1,7 @@
 #include "Stream.hpp"
 #include "config.hpp"
 #include <Geode/Geode.hpp>
-#include <eclipse.ffmpeg-api/include/recorder.hpp>
+#include <libavformat/avformat.h>
 
 using namespace geode::prelude;
 
