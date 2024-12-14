@@ -8,6 +8,8 @@ project(GDStream VERSION 1.0.0)
 
 file(GLOB_RECURSE SOURCES "src/*.cpp")
 
+include_directories("include")
+
 add_library(${PROJECT_NAME} SHARED ${SOURCES})
 
 include("cmake/CPM.cmake")
@@ -25,9 +27,6 @@ endif()
 
 CPMAddPackage("gh:machinezone/IXWebSocket#master")
 target_link_libraries(${PROJECT_NAME} ixwebsocket)
-
-CPMAddPackage("gh:FFmpeg/FFmpeg#master")
-target_link_libraries(${PROJECT_NAME} ffmpeg)
 
 add_subdirectory($ENV{GEODE_SDK} ${CMAKE_CURRENT_BINARY_DIR}/geode)
 

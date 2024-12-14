@@ -5,4 +5,4 @@ This mod allows people to <cj>make</c> and <cr>view</c> Geometry Dash livestream
 ## <cb>Credits</c>
 
 - <cp>OmgRod</c>: Lead Developer
-- <cj>Midair</c>: FFmpeg builds
+- <cj>Midair</c>: FFmpeg builds (not yet)
