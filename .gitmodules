@@ -3,5 +3,5 @@
 	url = https://github.com/ffmpeg/ffmpeg
 [submodule "include/ffmpeg"]
 	path = include/ffmpeg
-	url = https://github.com/ffmpeg/ffmpeg
+	url = https://github.com/omgrod/ffmpeg
 	branch = master
