@@ -31,7 +31,7 @@ set(ENABLE_TESTING OFF)
 set(MBEDTLS_AS_SUBPROJECT OFF)
 set(MBEDTLS_FATAL_WARNINGS OFF)
 
-CPMAddPackage("gh:TechStudent10/mbedtls#fc79213")
+CPMAddPackage("gh:Mbed-TLS/mbedtls#development")
 target_include_directories(${PROJECT_NAME} PRIVATE ${mbedtls_SOURCE_DIR}/include)
 target_link_libraries(${PROJECT_NAME} PRIVATE mbedtls mbedx509 mbedcrypto)
 
