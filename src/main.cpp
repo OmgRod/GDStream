@@ -35,7 +35,7 @@ class $modify(MyPlayLayer, PlayLayer) {
     }
 
     void onQuit() {
-        if (chatLayer) {
+        if (chatLayer && Mod::get()->getSettingValue<bool>("auto-toggle-chat")) {
             chatLayer->setVisible(false);
         }
 
