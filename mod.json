@@ -43,15 +43,25 @@
 	},
 	"dependencies": [
 		{
-			"id": "eclipse.ffmpeg-api",
+			"id": "geode.node-ids",
 			"importance": "required",
-			"version": ">=1.1.2"
+			"version": ">=1.18.0"
 		},
 		{
 			"id": "geode.custom-keybinds",
 			"importance": "required",
 			"version": ">=1.10.0",
 			"platforms": ["win"]
+		},
+		{
+			"id": "alphalaneous.pages_api",
+			"importance": "required",
+			"version": ">=v1.3.3"
+		},
+		{
+			"id": "alphalaneous.vanilla_pages",
+			"importance": "recommended",
+			"version": ">=v1.0.4"
 		}
 	],
 	"resources": {
@@ -68,5 +78,6 @@
 				"size": 48
 			}
 		}
-	}
+	},
+	"tags": ["content", "enhancement", "gameplay", "interface", "online", "modtober24", "universal", "utility"]
 }

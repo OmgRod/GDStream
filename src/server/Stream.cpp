@@ -1,12 +1,12 @@
 #include "Stream.hpp"
 #include "config.hpp"
 #include <Geode/Geode.hpp>
-#include <eclipse.ffmpeg-api/include/libavformat/avformat.h>
+#include <eclipse.ffmpeg-api/include/recorder.hpp>
 
 using namespace geode::prelude;
 
 bool Stream::init(int accID, const std::string& streamName) {
-    auto endpoint = ServerConfig::get()->m_serverEndpoint;
+    std::string endpoint = ServerConfig::get()->m_serverEndpoint;
     log::debug("Initializing Stream: Account ID = {}, Stream Name = {}, Endpoint = {}", accID, streamName, endpoint);
     return true;
 }

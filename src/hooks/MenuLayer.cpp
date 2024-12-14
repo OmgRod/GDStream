@@ -1,6 +1,7 @@
 #include "Geode/cocos/cocoa/CCObject.h"
 #include <Geode/Geode.hpp>
 #include <Geode/modify/MenuLayer.hpp>
+#include <Geode/ui/BasedButtonSprite.hpp>
 
 #include "../layers/StreamLayer.hpp"
 

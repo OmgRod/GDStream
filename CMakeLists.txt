@@ -18,11 +18,16 @@ else()
     message(STATUS "Found Geode: $ENV{GEODE_SDK}")
 endif()
 
-CPMAddPackage("gh:zaphoyd/websocketpp#master")
-target_include_directories(${PROJECT_NAME} PRIVATE ${websocketpp_SOURCE_DIR})
+set(USE_ZLIB OFF)
+if (NOT APPLE)
+    set(USE_MBED_TLS ON)
+endif()
 
-# CPMAddPackage("gh:FFmpeg/FFmpeg#master")
-# target_link_libraries(${PROJECT_NAME} ffmpeg)
+CPMAddPackage("gh:machinezone/IXWebSocket#master")
+target_include_directories(${PROJECT_NAME} ixwebsocket)
+
+CPMAddPackage("gh:FFmpeg/FFmpeg#master")
+target_link_libraries(${PROJECT_NAME} ffmpeg)
 
 add_subdirectory($ENV{GEODE_SDK} ${CMAKE_CURRENT_BINARY_DIR}/geode)
 
