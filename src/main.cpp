@@ -5,18 +5,18 @@
 
 using namespace geode::prelude;
 
-ChatLayer* chatLayer = nullptr; // Initialize to null
+ChatLayer* chatLayer = nullptr;
 
 $execute {
     bool chatEnabled = Mod::get()->getSettingValue<bool>("chat");
 
     if (chatEnabled) {
-        chatLayer = ChatLayer::create(); // Create ChatLayer instance
+        chatLayer = ChatLayer::create();
         if (chatLayer) {
             CCScene* currentScene = CCDirector::sharedDirector()->getRunningScene();
             chatLayer->setZOrder(9);
-            chatLayer->setVisible(false); // Initially hidden
-            SceneManager::get()->keepAcrossScenes(chatLayer); // Persist across scenes
+            chatLayer->setVisible(false);
+            SceneManager::get()->keepAcrossScenes(chatLayer);
         }
     }
 }
@@ -27,8 +27,8 @@ class $modify(MyPlayLayer, PlayLayer) {
             return false;
         }
 
-        if (chatLayer) {
-            chatLayer->setVisible(true); // Show ChatLayer when entering PlayLayer
+        if (chatLayer && Mod::get()->getSettingValue<bool>("auto-toggle-chat")) {
+            chatLayer->setVisible(true);
         }
 
         return true;
@@ -36,7 +36,7 @@ class $modify(MyPlayLayer, PlayLayer) {
 
     void onQuit() {
         if (chatLayer) {
-            chatLayer->setVisible(false); // Hide ChatLayer when quitting PlayLayer
+            chatLayer->setVisible(false);
         }
 
         PlayLayer::onQuit();
@@ -49,19 +49,17 @@ class $modify(MyPlayLayer, PlayLayer) {
 using namespace keybinds;
 
 $execute {
-    // Register a bindable key for toggling the chat
     BindManager::get()->registerBindable({
         "chat-toggle"_spr,
         "Toggle Chat",
         "Toggles the chat's visibility in-game.",
-        { Keybind::create(KEY_C, Modifier::Shift) }, // Default key: 'C'
+        { Keybind::create(KEY_C, Modifier::Shift) },
         "GDStream/Chat"
     });
 
-    // Add a listener for the keybind
     new EventListener([=](InvokeBindEvent* event) {
         if (event->isDown() && chatLayer) {
-            chatLayer->setVisible(!chatLayer->isVisible()); // Toggle visibility
+            chatLayer->setVisible(!chatLayer->isVisible());
         }
         return ListenerResult::Propagate;
     }, InvokeBindFilter(nullptr, "chat-toggle"_spr));

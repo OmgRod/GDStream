@@ -1,78 +1,34 @@
 cmake_minimum_required(VERSION 3.21)
-
-# Project Configuration
-project(GDStream VERSION 1.0.0)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_VISIBILITY_PRESET hidden)
 set(CMAKE_OSX_ARCHITECTURES "arm64;x86_64")
+set(CMAKE_CXX_VISIBILITY_PRESET hidden)
 
-# Gather Source Files
+project(GDStream VERSION 1.0.0)
+
 file(GLOB_RECURSE SOURCES "src/*.cpp")
+
 add_library(${PROJECT_NAME} SHARED ${SOURCES})
 
-# Include CPM for Dependency Management
 include("cmake/CPM.cmake")
 
-# Check Geode SDK Environment Variable
 if (NOT DEFINED ENV{GEODE_SDK})
     message(FATAL_ERROR "Unable to find Geode SDK! Please define GEODE_SDK environment variable to point to Geode")
 else()
-    message(STATUS "Found Geode SDK at $ENV{GEODE_SDK}")
+    message(STATUS "Found Geode: $ENV{GEODE_SDK}")
 endif()
 
-# Dependency: mbedTLS (for secure communication)
 set(USE_ZLIB OFF)
-set(USE_OPEN_SSL OFF)
-set(USE_TLS ON)
-set(ENABLE_PROGRAMS OFF)
-set(ENABLE_TESTING OFF)
-set(MBEDTLS_AS_SUBPROJECT OFF)
-set(MBEDTLS_FATAL_WARNINGS OFF)
+if (NOT APPLE)
+    set(USE_MBED_TLS ON)
+endif()
 
-# Fetch and Add mbedTLS
-CPMAddPackage("gh:Mbed-TLS/mbedtls#development")
-target_include_directories(${PROJECT_NAME} PRIVATE ${mbedtls_SOURCE_DIR}/include)
+CPMAddPackage("gh:machinezone/IXWebSocket#master")
+target_link_libraries(${PROJECT_NAME} ixwebsocket)
 
-# Manually set the paths for mbedTLS
-set(MBEDTLS_LIBRARY_DIR ${mbedtls_SOURCE_DIR}/library)
-set(MBEDTLS_INCLUDE_DIR ${mbedtls_SOURCE_DIR}/include)
-set(MBEDTLS_X509_INCLUDE_DIR ${mbedtls_SOURCE_DIR}/include)
-set(MBEDTLS_CRYPTO_INCLUDE_DIR ${mbedtls_SOURCE_DIR}/include)
+CPMAddPackage("gh:FFmpeg/FFmpeg#master")
+target_link_libraries(${PROJECT_NAME} ffmpeg)
 
-target_link_libraries(${PROJECT_NAME} PRIVATE
-    ${MBEDTLS_LIBRARY_DIR}/libmbedtls.a
-    ${MBEDTLS_LIBRARY_DIR}/libmbedx509.a
-    ${MBEDTLS_LIBRARY_DIR}/libmbedcrypto.a
-)
-
-# Dependency: IXWebSocket (for WebSocket communication)
-CPMAddPackage("gh:machinezone/IXWebSocket#dc8807e")
-target_link_libraries(${PROJECT_NAME} PRIVATE ixwebsocket)
-
-# Dependency: FFmpeg (for multimedia support)
-CPMAddPackage(
-    NAME FFmpeg
-    GITHUB_REPOSITORY BtbN/FFmpeg-Builds
-    VERSION 6.0
-    DOWNLOAD_ONLY ON
-)
-
-# Ensure Visibility and Optimization
-set_target_properties(${PROJECT_NAME} PROPERTIES
-    POSITION_INDEPENDENT_CODE ON
-    CXX_VISIBILITY_PRESET hidden
-    VISIBILITY_INLINES_HIDDEN ON
-)
-
-# Debug Information
-message(STATUS "FFmpeg Include Directory: ${FFmpeg_SOURCE_DIR}/include")
-message(STATUS "FFmpeg Library Directory: ${FFmpeg_SOURCE_DIR}/lib")
-message(STATUS "Geode SDK: $ENV{GEODE_SDK}")
-message(STATUS "MbedTLS Include Directory: ${MBEDTLS_INCLUDE_DIR}")
-message(STATUS "MbedTLS Library Directory: ${MBEDTLS_LIBRARY_DIR}")
-
-# Add Geode SDK
 add_subdirectory($ENV{GEODE_SDK} ${CMAKE_CURRENT_BINARY_DIR}/geode)
-setup_geode_mod(${PROJECT_NAME})
 
+setup_geode_mod(${PROJECT_NAME})
