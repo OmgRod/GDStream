@@ -42,7 +42,7 @@ jobs:
           mkdir ffmpeg
           if [[ "${{ matrix.config.os }}" == "windows-latest" ]]; then
             curl -L ${{ matrix.config.ffmpeg-url }} -o ffmpeg.zip
-            tar -xf ffmpeg.zip --strip-components=1 -C ffmpeg
+            powershell -Command "Expand-Archive -Path ffmpeg.zip -DestinationPath ffmpeg -Force"
           elif [[ "${{ matrix.config.os }}" == "macos-latest" ]]; then
             curl -L ${{ matrix.config.ffmpeg-url }} -o ffmpeg.zip
             unzip -j ffmpeg.zip -d ffmpeg
@@ -52,7 +52,8 @@ jobs:
         shell: bash
 
       - name: Add FFmpeg to PATH
-        run: echo "${{ github.workspace }}/ffmpeg/bin" >> $GITHUB_ENV
+        run: echo "FFMPEG_BIN=${{ github.workspace }}/ffmpeg/bin" >> $GITHUB_ENV
+        shell: bash
 
       - name: Build the mod
         uses: geode-sdk/build-geode-mod@main
