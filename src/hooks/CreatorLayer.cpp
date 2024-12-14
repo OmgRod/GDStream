@@ -21,8 +21,6 @@ class $modify(MyCreatorLayer, CreatorLayer) {
                 CategoryBaseSize::Big
             );
 
-            cameraBtn->setScale();
-
             auto chatButton = CCMenuItemSpriteExtra::create(
                 cameraBtn,
                 this,
