@@ -24,7 +24,7 @@ if (NOT APPLE)
 endif()
 
 CPMAddPackage("gh:machinezone/IXWebSocket#master")
-target_include_directories(${PROJECT_NAME} ixwebsocket)
+target_link_libraries(${PROJECT_NAME} ixwebsocket)
 
 CPMAddPackage("gh:FFmpeg/FFmpeg#master")
 target_link_libraries(${PROJECT_NAME} ffmpeg)
