@@ -1,61 +1,69 @@
 cmake_minimum_required(VERSION 3.21)
+
+# Project Configuration
+project(GDStream VERSION 1.0.0)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_OSX_ARCHITECTURES "arm64;x86_64")
 set(CMAKE_CXX_VISIBILITY_PRESET hidden)
+set(CMAKE_OSX_ARCHITECTURES "arm64;x86_64")
 
-project(GDStream VERSION 1.0.0)
-
+# Gather Source Files
 file(GLOB_RECURSE SOURCES "src/*.cpp")
-
 add_library(${PROJECT_NAME} SHARED ${SOURCES})
 
+# Include CPM for Dependency Management
 include("cmake/CPM.cmake")
 
+# Check Geode SDK Environment Variable
 if (NOT DEFINED ENV{GEODE_SDK})
     message(FATAL_ERROR "Unable to find Geode SDK! Please define GEODE_SDK environment variable to point to Geode")
 else()
-    message(STATUS "Found Geode: $ENV{GEODE_SDK}")
+    message(STATUS "Found Geode SDK at $ENV{GEODE_SDK}")
 endif()
 
-# start of copy of creator rotation code
 
+# Dependency: mbedTLS (for secure communication)
 set(USE_ZLIB OFF)
-if (NOT APPLE)
-    set(USE_MBED_TLS ON)
-endif()
-
 set(USE_OPEN_SSL OFF)
 set(USE_TLS ON)
-SET(CMAKE_C_SIMULATE_ID "Clang")
 set(ENABLE_PROGRAMS OFF)
 set(ENABLE_TESTING OFF)
 set(MBEDTLS_AS_SUBPROJECT OFF)
-set(DISABLE_PACKAGE_CONFIG_AND_INSTALL OFF)
 set(MBEDTLS_FATAL_WARNINGS OFF)
 
 CPMAddPackage("gh:TechStudent10/mbedtls#fc79213")
+target_include_directories(${PROJECT_NAME} PRIVATE ${mbedtls_SOURCE_DIR}/include)
+target_link_libraries(${PROJECT_NAME} PRIVATE mbedtls mbedx509 mbedcrypto)
 
-set(MBEDTLS_INCLUDE_DIRS "${mbedtls_SOURCE_DIR}/include")
-set(MBEDTLS_LIBRARY "mbedtls")
-set(MBEDX509_LIBRARY "mbedx509")
-set(MBEDCRYPTO_LIBRARY "mbedcrypto")
-
+# Dependency: IXWebSocket (for WebSocket communication)
 CPMAddPackage("gh:machinezone/IXWebSocket#dc8807e")
-install(TARGETS mbedtls mbedx509 mbedcrypto EXPORT mbedtls-targets)
+target_link_libraries(${PROJECT_NAME} PRIVATE ixwebsocket)
 
-if (WIN32)
-    if (CR_DEBUG)
-        target_compile_definitions(mbedtls PRIVATE _HAS_ITERATOR_DEBUGGING=0)
-        target_compile_definitions(ixwebsocket PRIVATE _HAS_ITERATOR_DEBUGGING=0)
-    endif()
-endif()
-
-# end of copy of creator rotation code
-
-CPMAddPackage("gh:FFmpeg/FFmpeg#master")
-target_link_libraries(${PROJECT_NAME} ffmpeg)
-
-add_subdirectory($ENV{GEODE_SDK} ${CMAKE_CURRENT_BINARY_DIR}/geode)
-
-setup_geode_mod(${PROJECT_NAME})
+# Dependency: FFmpeg (for multimedia support)
+CPMAddPackage(
+    NAME FFmpeg
+    GITHUB_REPOSITORY BtbN/FFmpeg-Builds
+    VERSION 6.0
+    DOWNLOAD_ONLY ON
+    )
+    set(FFMPEG_INCLUDE_DIR ${FFmpeg_SOURCE_DIR}/include)
+    set(FFMPEG_LIBRARY_DIR ${FFmpeg_SOURCE_DIR}/lib)
+    target_include_directories(${PROJECT_NAME} PRIVATE ${FFMPEG_INCLUDE_DIR})
+    target_link_directories(${PROJECT_NAME} PRIVATE ${FFMPEG_LIBRARY_DIR})
+    target_link_libraries(${PROJECT_NAME} PRIVATE avformat avcodec avutil)
+    
+    # Ensure Visibility and Optimization
+    set_target_properties(${PROJECT_NAME} PROPERTIES
+    POSITION_INDEPENDENT_CODE ON
+    CXX_VISIBILITY_PRESET hidden
+    VISIBILITY_INLINES_HIDDEN ON
+    )
+    
+    # Debug Information
+    message(STATUS "FFmpeg Include Directory: ${FFMPEG_INCLUDE_DIR}")
+    message(STATUS "FFmpeg Library Directory: ${FFMPEG_LIBRARY_DIR}")
+    message(STATUS "Geode SDK: $ENV{GEODE_SDK}")
+    
+    # Add Geode SDK
+    add_subdirectory($ENV{GEODE_SDK} ${CMAKE_CURRENT_BINARY_DIR}/geode)
+    setup_geode_mod(${PROJECT_NAME})
