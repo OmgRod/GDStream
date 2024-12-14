@@ -2,6 +2,7 @@
 #include "config.hpp"
 #include <Geode/Geode.hpp>
 #include <ffmpeg/libavformat/avformat.h>
+#include <ffmpeg/libavformat/rtmp.h>
 #include <ffmpeg/libavcodec/avcodec.h>
 #include <ffmpeg/libavutil/avutil.h>
 #include <ffmpeg/libavutil/opt.h>
