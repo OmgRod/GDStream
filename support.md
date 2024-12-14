@@ -1,2 +1,2 @@
-Thanks for supporting us!
-[Ko-fi](ko-fi.com/omgrod)
+More donations = more updates + better/more livestreams!
+- [Ko-fi](ko-fi.com/omgrod)
