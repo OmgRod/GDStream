@@ -10,50 +10,30 @@ jobs:
   build:
     strategy:
       fail-fast: false
+
+    name: Build ${{ matrix.config.name }}
+    runs-on: ${{ matrix.config.os }}
+
+    strategy:
+      fail-fast: false
       matrix:
         config:
         - name: Windows
           os: windows-latest
-          ffmpeg-url: https://www.gyan.dev/ffmpeg/builds/packages/ffmpeg-release-essentials.zip
-
+          target: Windows
         - name: macOS
           os: macos-latest
-          ffmpeg-url: https://evermeet.cx/ffmpeg/ffmpeg-6.0.zip
-
-        - name: Android32
+          target: macOS
+        - name: Linux
           os: ubuntu-latest
-          target: Android32
-          ffmpeg-url: https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-i686-static.tar.xz
-
-        - name: Android64
-          os: ubuntu-latest
-          target: Android64
-          ffmpeg-url: https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-static.tar.xz
-
-    name: ${{ matrix.config.name }}
-    runs-on: ${{ matrix.config.os }}
+          target: Linux
 
     steps:
-      - name: Checkout code
+      - name: Checkout code with submodules
         uses: actions/checkout@v4
-
-      - name: Set up FFmpeg
-        run: |
-          mkdir ffmpeg
-          if [[ "${{ matrix.config.os }}" == "windows-latest" ]]; then
-            curl -L ${{ matrix.config.ffmpeg-url }} -o ffmpeg.zip
-            powershell -Command "Expand-Archive -Path ffmpeg.zip -DestinationPath ffmpeg -Force"
-          elif [[ "${{ matrix.config.os }}" == "macos-latest" ]]; then
-            curl -L ${{ matrix.config.ffmpeg-url }} -o ffmpeg.zip
-            unzip -j ffmpeg.zip -d ffmpeg
-          else
-            curl -L ${{ matrix.config.ffmpeg-url }} | tar -xJ --strip-components=1 -C ffmpeg
-          fi
-        shell: bash
-
-      - name: Add FFmpeg to PATH
-        run: echo "FFMPEG_BIN=${{ github.workspace }}/ffmpeg/bin" >> $GITHUB_ENV
-        shell: bash
+        with:
+          submodules: recursive
+          fetch-depth: 0
 
       - name: Build the mod
         uses: geode-sdk/build-geode-mod@main
