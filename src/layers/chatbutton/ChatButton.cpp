@@ -1,5 +1,6 @@
 #include <Geode/Geode.hpp>
 #include "../chatbox/ChatLayer.hpp"
+#include "ChatButton.hpp"
 
 using namespace geode::prelude;
 
@@ -14,7 +15,11 @@ bool ChatButton::init() {
     auto winSize = CCDirector::sharedDirector()->getWinSize();
     auto menu = CCMenu::create();
 
-    
+    CircleButtonSprite::create(
+        CCSprite::create("chatIcon01.png"_spr),
+        CircleBaseColor::Green,
+        CircleBaseSize::Medium
+    );
 
     return true;
 }
