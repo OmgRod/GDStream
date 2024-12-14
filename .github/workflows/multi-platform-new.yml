@@ -8,13 +8,7 @@ on:
 
 jobs:
   build:
-    strategy:
-      fail-fast: false
-
-    name: Build ${{ matrix.config.name }}
-    runs-on: ${{ matrix.config.os }}
-
-    strategy:
+    strategy:  # Move strategy to the correct position
       fail-fast: false
       matrix:
         config:
@@ -27,6 +21,9 @@ jobs:
         - name: Linux
           os: ubuntu-latest
           target: Linux
+
+    name: Build ${{ matrix.config.name }}
+    runs-on: ${{ matrix.config.os }}
 
     steps:
       - name: Checkout code with submodules
