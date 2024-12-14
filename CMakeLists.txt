@@ -30,9 +30,21 @@ set(ENABLE_TESTING OFF)
 set(MBEDTLS_AS_SUBPROJECT OFF)
 set(MBEDTLS_FATAL_WARNINGS OFF)
 
+# Fetch and Add mbedTLS
 CPMAddPackage("gh:Mbed-TLS/mbedtls#development")
 target_include_directories(${PROJECT_NAME} PRIVATE ${mbedtls_SOURCE_DIR}/include)
-target_link_libraries(${PROJECT_NAME} PRIVATE mbedtls mbedx509 mbedcrypto)
+
+# Manually set the paths for mbedTLS
+set(MBEDTLS_LIBRARY_DIR ${mbedtls_SOURCE_DIR}/library)
+set(MBEDTLS_INCLUDE_DIR ${mbedtls_SOURCE_DIR}/include)
+set(MBEDTLS_X509_INCLUDE_DIR ${mbedtls_SOURCE_DIR}/include)
+set(MBEDTLS_CRYPTO_INCLUDE_DIR ${mbedtls_SOURCE_DIR}/include)
+
+target_link_libraries(${PROJECT_NAME} PRIVATE
+    ${MBEDTLS_LIBRARY_DIR}/libmbedtls.a
+    ${MBEDTLS_LIBRARY_DIR}/libmbedx509.a
+    ${MBEDTLS_LIBRARY_DIR}/libmbedcrypto.a
+)
 
 # Dependency: IXWebSocket (for WebSocket communication)
 CPMAddPackage("gh:machinezone/IXWebSocket#dc8807e")
@@ -45,8 +57,6 @@ CPMAddPackage(
     VERSION 6.0
     DOWNLOAD_ONLY ON
 )
-# No need to manually set the FFmpeg include and library directories here, CPM should handle it.
-message(STATUS "FFmpeg package downloaded and configured successfully.")
 
 # Ensure Visibility and Optimization
 set_target_properties(${PROJECT_NAME} PROPERTIES
@@ -59,6 +69,8 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 message(STATUS "FFmpeg Include Directory: ${FFmpeg_SOURCE_DIR}/include")
 message(STATUS "FFmpeg Library Directory: ${FFmpeg_SOURCE_DIR}/lib")
 message(STATUS "Geode SDK: $ENV{GEODE_SDK}")
+message(STATUS "MbedTLS Include Directory: ${MBEDTLS_INCLUDE_DIR}")
+message(STATUS "MbedTLS Library Directory: ${MBEDTLS_LIBRARY_DIR}")
 
 # Add Geode SDK
 add_subdirectory($ENV{GEODE_SDK} ${CMAKE_CURRENT_BINARY_DIR}/geode)
