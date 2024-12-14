@@ -21,7 +21,6 @@ else()
     message(STATUS "Found Geode SDK at $ENV{GEODE_SDK}")
 endif()
 
-
 # Dependency: mbedTLS (for secure communication)
 set(USE_ZLIB OFF)
 set(USE_OPEN_SSL OFF)
@@ -45,25 +44,23 @@ CPMAddPackage(
     GITHUB_REPOSITORY BtbN/FFmpeg-Builds
     VERSION 6.0
     DOWNLOAD_ONLY ON
-    )
-    set(FFMPEG_INCLUDE_DIR ${FFmpeg_SOURCE_DIR}/include)
-    set(FFMPEG_LIBRARY_DIR ${FFmpeg_SOURCE_DIR}/lib)
-    target_include_directories(${PROJECT_NAME} PRIVATE ${FFMPEG_INCLUDE_DIR})
-    target_link_directories(${PROJECT_NAME} PRIVATE ${FFMPEG_LIBRARY_DIR})
-    target_link_libraries(${PROJECT_NAME} PRIVATE avformat avcodec avutil)
-    
-    # Ensure Visibility and Optimization
-    set_target_properties(${PROJECT_NAME} PROPERTIES
+)
+# No need to manually set the FFmpeg include and library directories here, CPM should handle it.
+message(STATUS "FFmpeg package downloaded and configured successfully.")
+
+# Ensure Visibility and Optimization
+set_target_properties(${PROJECT_NAME} PROPERTIES
     POSITION_INDEPENDENT_CODE ON
     CXX_VISIBILITY_PRESET hidden
     VISIBILITY_INLINES_HIDDEN ON
-    )
-    
-    # Debug Information
-    message(STATUS "FFmpeg Include Directory: ${FFMPEG_INCLUDE_DIR}")
-    message(STATUS "FFmpeg Library Directory: ${FFMPEG_LIBRARY_DIR}")
-    message(STATUS "Geode SDK: $ENV{GEODE_SDK}")
-    
-    # Add Geode SDK
-    add_subdirectory($ENV{GEODE_SDK} ${CMAKE_CURRENT_BINARY_DIR}/geode)
-    setup_geode_mod(${PROJECT_NAME})
+)
+
+# Debug Information
+message(STATUS "FFmpeg Include Directory: ${FFmpeg_SOURCE_DIR}/include")
+message(STATUS "FFmpeg Library Directory: ${FFmpeg_SOURCE_DIR}/lib")
+message(STATUS "Geode SDK: $ENV{GEODE_SDK}")
+
+# Add Geode SDK
+add_subdirectory($ENV{GEODE_SDK} ${CMAKE_CURRENT_BINARY_DIR}/geode)
+setup_geode_mod(${PROJECT_NAME})
+
