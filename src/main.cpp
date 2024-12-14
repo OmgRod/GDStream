@@ -57,6 +57,22 @@ $execute {
         "GDStream/Chat"
     });
 
+    BindManager::get()->registerBindable({
+        "start-stream"_spr,
+        "Start Livestream",
+        "Starts livestreaming.",
+        { Keybind::create(KEY_R, Modifier::Shift) },
+        "GDStream/Livestream"
+    });
+
+    BindManager::get()->registerBindable({
+        "stop-stream"_spr,
+        "Stop Livestream",
+        "Stops livestreaming.",
+        { Keybind::create(KEY_T, Modifier::Shift) },
+        "GDStream/Livestream"
+    });
+
     new EventListener([=](InvokeBindEvent* event) {
         if (event->isDown() && chatLayer) {
             chatLayer->setVisible(!chatLayer->isVisible());

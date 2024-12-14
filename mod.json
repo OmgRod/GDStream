@@ -8,7 +8,7 @@
 	},
 	"id": "omgrod.gdstream",
 	"name": "GDStream",
-	"version": "v0.1.0-alpha.1",
+	"version": "v1.0.0-alpha.1",
 	"developer": "OmgRod",
 	"description": "Share live gameplay with your audience in GD!",
 	"settings": {
@@ -38,7 +38,16 @@
 			"name": "Profile Picture",
 			"type": "file",
 			"default": "Please pick an image file.",
-			"description": "Set your custom profile picture for chat and accounts"
+			"description": "Set your custom profile picture for chat and accounts",
+			"control": {
+				"filters": [
+					{
+						"description": "Image Files",
+						"files": ["*.png", "*.jpg", "*.jpeg"]
+					}
+				],
+				"dialog": "open"
+			}
 		}
 	},
 	"dependencies": [
