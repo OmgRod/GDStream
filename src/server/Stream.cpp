@@ -9,120 +9,94 @@
 
 using namespace geode::prelude;
 
-bool Stream::init(int accID, const std::string& streamName) {
-    std::string endpoint = ServerConfig::get()->m_serverEndpoint;
-    log::debug("Initializing Stream: Account ID = {}, Stream Name = {}, Endpoint = {}", accID, streamName, endpoint);
+class StreamSession {
+public:
+    AVFormatContext* formatContext = nullptr;
+    AVStream* videoStream = nullptr;
+    AVCodecContext* codecContext = nullptr;
+
+    ~StreamSession() {
+        cleanup();
+    }
+
+    void cleanup() {
+        if (codecContext) {
+            avcodec_free_context(&codecContext);
+            codecContext = nullptr;
+        }
+        if (formatContext) {
+            if (formatContext->pb) {
+                avio_closep(&formatContext->pb);
+            }
+            avformat_free_context(formatContext);
+            formatContext = nullptr;
+        }
+    }
+
+    bool initialize(const char* filename) {
+        avformat_network_init(); // Initialize network components
+
+        int ret = avformat_open_input(&formatContext, filename, nullptr, nullptr);
+        if (ret < 0) {
+            cleanup();
+            return false;
+        }
+
+        ret = avformat_find_stream_info(formatContext, nullptr);
+        if (ret < 0) {
+            cleanup();
+            return false;
+        }
+
+        for (unsigned int i = 0; i < formatContext->nb_streams; i++) {
+            if (formatContext->streams[i]->codecpar->codec_type == AVMEDIA_TYPE_VIDEO) {
+                videoStream = formatContext->streams[i];
+                break;
+            }
+        }
+
+        if (!videoStream) {
+            cleanup();
+            return false;
+        }
+
+        const AVCodec* codec = avcodec_find_decoder(videoStream->codecpar->codec_id);
+        if (!codec) {
+            cleanup();
+            return false;
+        }
+
+        codecContext = avcodec_alloc_context3(codec);
+        if (!codecContext) {
+            cleanup();
+            return false;
+        }
+
+        ret = avcodec_parameters_to_context(codecContext, videoStream->codecpar);
+        if (ret < 0) {
+            cleanup();
+            return false;
+        }
+
+        ret = avcodec_open2(codecContext, codec, nullptr);
+        if (ret < 0) {
+            cleanup();
+            return false;
+        }
+
+        return true;
+    }
+};
+
+// Implementation of Stream class methods
+bool Stream::init(int accountID, const std::string& streamName) {
+    // Initialize the stream with the given account ID and stream name
+    // Add your implementation here
     return true;
 }
 
 bool Stream::startRTMPStream(const std::string& streamName) {
-    const std::string endpoint = ServerConfig::get()->m_serverEndpoint;
-    const std::string rtmpURL = "rtmp://" + endpoint + "/live/" + streamName;
-
-    log::info("Starting RTMP Stream: {}", rtmpURL);
-
-    AVFormatContext* formatContext = nullptr;
-    AVStream* videoStream = nullptr;
-
-    // Register all formats and codecs
-    av_register_all();
-    avformat_network_init();
-
-    // Allocate the format context
-    if (avformat_alloc_output_context2(&formatContext, nullptr, "flv", rtmpURL.c_str()) < 0) {
-        log::error("Failed to allocate output format context");
-        return false;
-    }
-
-    // Open the output URL
-    if (avio_open(&formatContext->pb, rtmpURL.c_str(), AVIO_FLAG_WRITE) < 0) {
-        log::error("Failed to open RTMP URL");
-        avformat_free_context(formatContext);
-        return false;
-    }
-
-    // Create video stream
-    videoStream = avformat_new_stream(formatContext, nullptr);
-    if (!videoStream) {
-        log::error("Failed to create video stream");
-        avio_closep(&formatContext->pb);
-        avformat_free_context(formatContext);
-        return false;
-    }
-
-    // Configure codec parameters for the stream
-    AVCodec* codec = avcodec_find_encoder(AV_CODEC_ID_H264);
-    if (!codec) {
-        log::error("H.264 encoder not found");
-        avio_closep(&formatContext->pb);
-        avformat_free_context(formatContext);
-        return false;
-    }
-
-    AVCodecContext* codecContext = avcodec_alloc_context3(codec);
-    if (!codecContext) {
-        log::error("Failed to allocate codec context");
-        avio_closep(&formatContext->pb);
-        avformat_free_context(formatContext);
-        return false;
-    }
-
-    codecContext->codec_id = codec->id;
-    codecContext->bit_rate = 400000;
-    codecContext->width = 1280;
-    codecContext->height = 720;
-    codecContext->time_base = (AVRational){1, 30}; // 30 FPS
-    codecContext->framerate = (AVRational){30, 1};
-    codecContext->gop_size = 10; // Group of Pictures size
-    codecContext->max_b_frames = 1;
-    codecContext->pix_fmt = AV_PIX_FMT_YUV420P;
-
-    if (formatContext->oformat->flags & AVFMT_GLOBALHEADER)
-        codecContext->flags |= AV_CODEC_FLAG_GLOBAL_HEADER;
-
-    // Open codec
-    if (avcodec_open2(codecContext, codec, nullptr) < 0) {
-        log::error("Failed to open codec");
-        avcodec_free_context(&codecContext);
-        avio_closep(&formatContext->pb);
-        avformat_free_context(formatContext);
-        return false;
-    }
-
-    // Copy the codec context settings to the stream
-    if (avcodec_parameters_from_context(videoStream->codecpar, codecContext) < 0) {
-        log::error("Failed to copy codec context parameters");
-        avcodec_free_context(&codecContext);
-        avio_closep(&formatContext->pb);
-        avformat_free_context(formatContext);
-        return false;
-    }
-
-    videoStream->time_base = codecContext->time_base;
-
-    // Write the stream header
-    if (avformat_write_header(formatContext, nullptr) < 0) {
-        log::error("Failed to write header to RTMP stream");
-        avcodec_free_context(&codecContext);
-        avio_closep(&formatContext->pb);
-        avformat_free_context(formatContext);
-        return false;
-    }
-
-    log::info("RTMP stream initialized and ready to receive frames.");
-
-    // Clean up (typically, you'd handle this after streaming is done)
-    av_write_trailer(formatContext);
-    avcodec_free_context(&codecContext);
-    avio_closep(&formatContext->pb);
-    avformat_free_context(formatContext);
-
+    // Start the RTMP stream with the given stream name
+    // Add your implementation here
     return true;
-}
-
-$execute {
-    auto accountID = GJAccountManager::sharedState()->m_accountID;
-    if (Stream::init(accountID, "Test Livestream")) {
-        Stream::startRTMPStream("TestLivestream");
-    }
 }

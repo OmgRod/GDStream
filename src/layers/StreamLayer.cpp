@@ -2,6 +2,7 @@
 #include <Geode/ui/ScrollLayer.hpp>
 #include <Geode/ui/Layout.hpp>
 #include <Geode/ui/GeodeUI.hpp>
+#include "StreamCreatorLayer.hpp"
 #include "StreamLayer.hpp"
 
 using namespace geode::prelude;
@@ -18,7 +19,10 @@ void StreamLayer::onSettings(CCObject*) {
 }
 
 void StreamLayer::onCreate(CCObject*) {
-    FLAlertLayer::create("GDStream", "This feature is coming soon!", "OK")->show();
+    // FLAlertLayer::create("GDStream", "This feature is coming soon!", "OK")->show();
+    auto scene = StreamCreatorLayer::scene();
+    auto transition = CCTransitionFade::create(0.5f, scene);
+    CCDirector::sharedDirector()->pushScene(transition);
 }
 
 void StreamLayer::onProfile(CCObject*) {

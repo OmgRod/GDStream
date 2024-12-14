@@ -79,5 +79,14 @@
 			}
 		}
 	},
-	"tags": ["content", "enhancement", "gameplay", "interface", "online", "modtober24", "universal", "utility"]
+	"tags": ["content", "enhancement", "gameplay", "interface", "online", "modtober24", "universal", "utility"],
+	"links": {
+		"community": "https://discord.gg/vK3DuqJwyW",
+		"homepage": "https://gdstream.omgrod.me/",
+		"source": "https://github.com/OmgRod/GDStream"
+	},
+	"issues": {
+		"info": "Report any issues or bugs you find with the mod.",
+		"url": "https://github.com/OmgRod/GDStream/issues"
+	}
 }
