@@ -1,4 +1,6 @@
-using namespace cocos2d;
+#include <Geode/Geode.hpp>
+
+using namespace geode::prelude;
 
 class StreamLayer : public CCLayer {
 public:

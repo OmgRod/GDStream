@@ -1,3 +1,5 @@
+#include <Geode/Geode.hpp>
+
 using namespace geode::prelude;
 
 class ChatButton : public CCLayer {
