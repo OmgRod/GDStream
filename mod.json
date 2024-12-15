@@ -20,7 +20,7 @@
 		"chat": {
 			"name": "Chat Enabled",
 			"type": "bool",
-			"default": true,
+			"default": false,
 			"description": "Enable chat in-game by default. You can still toggle the chat by pressing \"<cr>Shift+C</c>\" (toggle unavailable for MacOS)"
 		},
 		"auto-toggle-chat": {
@@ -75,7 +75,7 @@
 	],
 	"resources": {
 		"sprites": [
-			"res/spr/*.png"
+			"res/spr/**/*.png"
 		],
 		"fonts": {
 			"montserrat": {

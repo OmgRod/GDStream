@@ -10,14 +10,14 @@ ChatLayer* chatLayer = nullptr;
 $execute {
     bool chatEnabled = Mod::get()->getSettingValue<bool>("chat");
 
-    if (chatEnabled) {
-        chatLayer = ChatLayer::create();
-        if (chatLayer) {
-            CCScene* currentScene = CCDirector::sharedDirector()->getRunningScene();
-            chatLayer->setZOrder(9);
+    chatLayer = ChatLayer::create();
+    if (chatLayer) {
+        CCScene* currentScene = CCDirector::sharedDirector()->getRunningScene();
+        chatLayer->setZOrder(9);
+        if (chatEnabled) {
             chatLayer->setVisible(false);
-            SceneManager::get()->keepAcrossScenes(chatLayer);
         }
+        SceneManager::get()->keepAcrossScenes(chatLayer);
     }
 }
 
