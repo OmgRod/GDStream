@@ -1,7 +1,8 @@
 # GDStream
 This mod allows people to <cj>make</c> and <cr>view</c> Geometry Dash livestreams.
 
-<img src="logo.png" width="150" alt="GDStream logo" />
+<img src="res/spr/logos/modLogo01.png" width="150" alt="GDStream logo (red/pink)" />
+<img src="res/spr/logos/modLogo02.png" width="150" alt="GDStream logo (blue)" />
 
 ## Getting started
 We recommend heading over to [the getting started section on our docs](https://docs.geode-sdk.org/getting-started/) for useful info on what to do next.
