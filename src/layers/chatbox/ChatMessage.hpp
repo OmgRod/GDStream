@@ -16,7 +16,6 @@ public:
     void openProfile(CCObject*);
 
 private:
-    CCLabelTTF* m_label;
     TextArea* m_chatMessage;
     CCLabelBMFont* m_username;
     int m_userID;

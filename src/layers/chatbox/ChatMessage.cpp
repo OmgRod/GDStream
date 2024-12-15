@@ -1,20 +1,15 @@
 #include "ChatMessage.hpp"
 #include <string>
+#include <map>
 #include <Geode/Geode.hpp>
 
 using namespace geode::prelude;
 
 std::string chatFontName;
 
-ChatMessage::ChatMessage()
-    : m_label(nullptr) {}
+ChatMessage::ChatMessage() {}
 
-ChatMessage::~ChatMessage() {
-    if (m_label) {
-        m_label->removeFromParent();
-        m_label->release();
-    }
-}
+ChatMessage::~ChatMessage() {}
 
 ChatMessage* ChatMessage::create(const std::string& message, const std::string& username) {
     ChatMessage* ret = new ChatMessage();
@@ -43,26 +38,24 @@ bool ChatMessage::init(const std::string& message, const std::string& username) 
     float contentHeight = this->getContentHeight();
     float spriteSize = contentHeight * 0.85f;
     float padding = contentHeight * 0.075f;
-    float cornerRadius = spriteSize * 0.15f; // 15% corner radius
+    float cornerRadius = spriteSize * 0.15f;
 
     m_userID = GJAccountManager::sharedState()->m_accountID;
 
+    std::map<std::string, std::string> fontMap = {
+        {"Montserrat", "montserrat"},
+        {"Arial", "arial"},
+        {"Comic Sans MS", "comicsans"},
+        {"Source Sans Pro", "sourcesanspro"}
+    };
+
     auto chatFont = Mod::get()->getSettingValue<std::string>("chat-font");
-    
-    if (chatFont == "Montserrat") {
-        chatFontName = "montserrat";
-    } else if (chatFont == "Arial") {
-        chatFontName = "arial";
-    } else if (chatFont == "Comic Sans MS") {
-        chatFontName = "comicsans";
-    } else if (chatFont == "Source Sans Pro") {
-        chatFontName = "sourcesanspro";
-    }
+    chatFontName = fontMap.count(chatFont) ? fontMap[chatFont] : "defaultfont";
 
     std::string fontFileRegular = fmt::format("{}.fnt"_spr, chatFontName);
 
     m_chatMessage = TextArea::create(
-        message.c_str(), // The actual message
+        message.c_str(),
         fontFileRegular.c_str(),
         1.f,
         (winSize.width * 0.3f) - (spriteSize + padding * 3),
@@ -91,7 +84,6 @@ bool ChatMessage::init(const std::string& message, const std::string& username) 
     if (usernameBtn) {
         usernameBtn->setAnchorPoint({ 0.f, 0.f });
 
-        // Create a menu and add the username button
         auto menu = CCMenu::createWithItem(usernameBtn);
         menu->setAnchorPoint({ 0.f, 0.f });
         menu->setPosition({
@@ -99,7 +91,6 @@ bool ChatMessage::init(const std::string& message, const std::string& username) 
             padding + messageHeight
         });
 
-        // Set the menu position so that the button is in the same position
         this->addChild(menu);
     }
 
