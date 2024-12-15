@@ -1,1 +1,1 @@
-These files are not and never will be used in development. These files are here just in case if I, OmgRod, need a backup of these images if something breaks.
+These files are not and never will be used in development. These files are here just in case if I, OmgRod, (or any contributors) need a backup of these images if something breaks.
