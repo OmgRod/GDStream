@@ -1,14 +1,8 @@
 #include "ChatMessage.hpp"
 
-ChatMessage::ChatMessage()
-    : m_label(nullptr) {}
+ChatMessage::ChatMessage() {}
 
-ChatMessage::~ChatMessage() {
-    if (m_label) {
-        m_label->removeFromParent();
-        m_label->release();
-    }
-}
+ChatMessage::~ChatMessage() {}
 
 ChatMessage* ChatMessage::create(const std::string& message, const std::string& username) {
     ChatMessage* ret = new ChatMessage();

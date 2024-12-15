@@ -30,7 +30,8 @@
 			"description": "Automatically toggle chat visibility when opening a level."
 		},
 		"chat-font": {
-			"name": "Font",
+			"name": "Font (WIP)",
+			"description": "Change the font shown in livestream chats. This does not change the chats seen *in* livestreams.",
 			"type": "string",
 			"default": "Montserrat",
 			"one-of": ["Montserrat", "Arial", "Source Sans Pro", "Comic Sans MS"],
