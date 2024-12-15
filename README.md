@@ -5,7 +5,18 @@ This mod allows people to <cj>make</c> and <cr>view</c> Geometry Dash livestream
 <span><img src="res/spr/logos/modLogo02.png" width="150" alt="GDStream logo (blue)" /></span>
 
 ## Getting started
-We recommend heading over to [the getting started section on our docs](https://docs.geode-sdk.org/getting-started/) for useful info on what to do next.
+
+1. Clone this repository:
+
+```sh
+$ git clone --recurse-submodules https://github.com/OmgRod/GDStream.git
+```
+
+2. Open it in your preferred IDE (I am using VS Code):
+
+```sh
+$ code .
+```
 
 ## Build instructions
 For more info, see [our docs](https://docs.geode-sdk.org/getting-started/create-mod#build)
