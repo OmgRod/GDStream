@@ -1,4 +1,10 @@
 #include "ChatMessage.hpp"
+#include <string>
+#include <Geode/Geode.hpp>
+
+using namespace geode::prelude;
+
+std::string chatFontName;
 
 ChatMessage::ChatMessage()
     : m_label(nullptr) {}
@@ -41,9 +47,23 @@ bool ChatMessage::init(const std::string& message, const std::string& username) 
 
     m_userID = GJAccountManager::sharedState()->m_accountID;
 
+    auto chatFont = Mod::get()->getSettingValue<std::string>("chat-font");
+    
+    if (chatFont == "Montserrat") {
+        chatFontName = "montserrat";
+    } else if (chatFont == "Arial") {
+        chatFontName = "arial";
+    } else if (chatFont == "Comic Sans MS") {
+        chatFontName = "comicsans";
+    } else if (chatFont == "Source Sans Pro") {
+        chatFontName = "sourcesanspro";
+    }
+
+    std::string fontFileRegular = fmt::format("{}.fnt"_spr, chatFontName);
+
     m_chatMessage = TextArea::create(
         message.c_str(), // The actual message
-        "montserrat.fnt"_spr,
+        fontFileRegular.c_str(),
         1.f,
         (winSize.width * 0.3f) - (spriteSize + padding * 3),
         { 0.f, 0.f },
@@ -64,7 +84,9 @@ bool ChatMessage::init(const std::string& message, const std::string& username) 
 
     float messageHeight = m_chatMessage->getContentHeight() + winSize.height * 0.05;
 
-    m_username = CCLabelBMFont::create(username.c_str(), "montserrat-bold.fnt"_spr);
+    std::string fontFileBold = fmt::format("{}-bold.fnt"_spr, chatFontName);
+
+    m_username = CCLabelBMFont::create(username.c_str(), fontFileBold.c_str());
     auto usernameBtn = CCMenuItemSpriteExtra::create(m_username, this, menu_selector(ChatMessage::openProfile));
     if (usernameBtn) {
         usernameBtn->setAnchorPoint({ 0.f, 0.f });
