@@ -5,15 +5,23 @@ using namespace geode::prelude;
 $execute {
     new EventListener<EventFilter<ModLogoUIEvent>>(+[](ModLogoUIEvent* event) {
         if (event->getModID() == "omgrod.gdstream") {
-            // Remember: no assumptions, even trivial ones!
+            // Create the new sprite
             if (auto fart = CCSprite::create("modLogo01.png"_spr)) {
-                fart->setScaleX(5);
-                fart->setScaleY(3);
-                // `event->getSprite()` is guaranteed to not be `nullptr` though
+                fart->setScale(0.595f);
+
+                // Add the new sprite to the center of the original sprite
                 event->getSprite()->addChildAtPosition(fart, Anchor::Center);
+
+                // Find and remove a specific child if it exists
+                if (auto child = event->getSprite()->getChildByID("sprite")) {
+                    child->setVisible(false);
+                    child->setID("sprite-old");
+                }
+
+                fart->setID("sprite");
             }
         }
-        // You should always propagate Geode UI events
+        // Always propagate Geode UI events
         return ListenerResult::Propagate;
     });
 }
