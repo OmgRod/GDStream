@@ -49,22 +49,29 @@ bool ChatMessage::init(const std::string& message, const std::string& username) 
         {"Source Sans Pro", "sourcesanspro"}
     };
 
-    auto chatFont = Mod::get()->getSettingValue<std::string>("chat-font");
-    chatFontName = fontMap.count(chatFont) ? fontMap[chatFont] : "defaultfont";
+    try {
+        auto chatFont = Mod::get()->getSettingValue<std::string>("chat-font");
+        chatFontName = fontMap.count(chatFont) ? fontMap[chatFont] : "defaultfont";
 
-    std::string fontFileRegular = fmt::format("{}.fnt"_spr, chatFontName);
+        std::string fontFileRegular = fmt::format("{}.fnt"_spr, chatFontName);
 
-    m_chatMessage = TextArea::create(
-        message.c_str(),
-        fontFileRegular.c_str(),
-        1.f,
-        (winSize.width * 0.3f) - (spriteSize + padding * 3),
-        { 0.f, 0.f },
-        winSize.height * 0.05,
-        false
-    );
+        log::debug("Using font: {}", fontFileRegular);  // Log the font being used
 
-    if (m_chatMessage) {
+        // Attempt to create the TextArea and handle failure
+        m_chatMessage = TextArea::create(
+            message.c_str(),
+            fontFileRegular.c_str(),
+            1.f,
+            (winSize.width * 0.3f) - (spriteSize + padding * 3),
+            { 0.f, 0.f },
+            winSize.height * 0.05,
+            false
+        );
+
+        if (!m_chatMessage) {
+            throw std::runtime_error("Failed to create chat message text area.");
+        }
+
         m_chatMessage->setAnchorPoint({ 0.f, 0.f });
         m_chatMessage->setPosition({
             spriteSize + padding * 2,
@@ -73,29 +80,48 @@ bool ChatMessage::init(const std::string& message, const std::string& username) 
         m_chatMessage->setID("message");
         m_chatMessage->setContentWidth((winSize.width * 0.3f) - (spriteSize + padding * 3));
         this->addChild(m_chatMessage);
+
+    } catch (const std::exception& e) {
+        log::debug("Exception caught during font-related initialization: {}", e.what());
+        return false;  // Return false to indicate failure
     }
 
+    // Continue with other initialization
     float messageHeight = m_chatMessage->getContentHeight() + winSize.height * 0.05;
 
-    std::string fontFileBold = fmt::format("{}-bold.fnt"_spr, chatFontName);
+    try {
+        std::string fontFileBold = fmt::format("{}-bold.fnt"_spr, chatFontName);
 
-    m_username = CCLabelBMFont::create(username.c_str(), fontFileBold.c_str());
-    auto usernameBtn = CCMenuItemSpriteExtra::create(m_username, this, menu_selector(ChatMessage::openProfile));
-    if (usernameBtn) {
-        usernameBtn->setAnchorPoint({ 0.f, 0.f });
+        m_username = CCLabelBMFont::create(username.c_str(), fontFileBold.c_str());
+        if (!m_username) {
+            throw std::runtime_error("Failed to create username label.");
+        }
 
-        auto menu = CCMenu::createWithItem(usernameBtn);
-        menu->setAnchorPoint({ 0.f, 0.f });
-        menu->setPosition({
-            spriteSize + padding * 2,
-            padding + messageHeight
-        });
+        auto usernameBtn = CCMenuItemSpriteExtra::create(m_username, this, menu_selector(ChatMessage::openProfile));
+        if (usernameBtn) {
+            usernameBtn->setAnchorPoint({ 0.f, 0.f });
 
-        this->addChild(menu);
+            auto menu = CCMenu::createWithItem(usernameBtn);
+            menu->setAnchorPoint({ 0.f, 0.f });
+            menu->setPosition({
+                spriteSize + padding * 2,
+                padding + messageHeight
+            });
+
+            this->addChild(menu);
+        }
+
+    } catch (const std::exception& e) {
+        log::debug("Exception caught during username-related initialization: {}", e.what());
+        return false;  // Return false to indicate failure
     }
 
-    CCSprite* pfp = CCSprite::create("unkProfilePicture.png"_spr);
-    if (pfp) {
+    try {
+        CCSprite* pfp = CCSprite::create("unkProfilePicture.png"_spr);
+        if (!pfp) {
+            throw std::runtime_error("Failed to load profile picture.");
+        }
+
         float scaleX = spriteSize / pfp->getContentSize().width;
         float scaleY = spriteSize / pfp->getContentSize().height;
         pfp->setScaleX(scaleX);
@@ -109,6 +135,10 @@ bool ChatMessage::init(const std::string& message, const std::string& username) 
         });
 
         this->addChild(pfp);
+
+    } catch (const std::exception& e) {
+        log::debug("Exception caught during profile picture loading: {}", e.what());
+        return false;  // Return false to indicate failure
     }
 
     return true;
