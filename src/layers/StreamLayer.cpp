@@ -5,7 +5,10 @@
 #include "StreamCreatorLayer.hpp"
 #include "StreamLayer.hpp"
 
+#include <GDStreamAPI/Popup.hpp>
+
 using namespace geode::prelude;
+using namespace gdstream;
 
 StreamLayer::StreamLayer() = default;
 StreamLayer::~StreamLayer() = default;
@@ -23,6 +26,12 @@ void StreamLayer::onCreate(CCObject*) {
     auto scene = StreamCreatorLayer::scene();
     auto transition = CCTransitionFade::create(0.5f, scene);
     CCDirector::sharedDirector()->pushScene(transition);
+}
+
+void StreamLayer::onTest(CCObject*) {
+    auto winSize = CCDirector::sharedDirector()->getWinSize();
+    auto popup = gdstream::Popup::create("Test Popup", winSize.width * 0.7, winSize.height * 0.8);
+    popup->show();
 }
 
 void StreamLayer::onProfile(CCObject*) {
@@ -88,6 +97,18 @@ bool StreamLayer::init() {
     layout->setAxisAlignment(AxisAlignment::End);
     topbar->setLayout(layout);
     topbar->setID("topbar");
+
+    auto testBtn = CCMenuItemSpriteExtra::create(
+        CircleButtonSprite::create(
+            CCSprite::create("chatIcon01.png"_spr),
+            CircleBaseColor::Green,
+            CircleBaseSize::Tiny
+        ),
+        this,
+        menu_selector(StreamLayer::onTest)
+    );
+    testBtn->setID("test-btn");
+    topbar->addChild(testBtn);
 
     auto addBtn = CCMenuItemSpriteExtra::create(
         CircleButtonSprite::create(

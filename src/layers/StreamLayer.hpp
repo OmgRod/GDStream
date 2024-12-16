@@ -12,6 +12,7 @@ public:
     void onBack(CCObject*);
     void onSettings(CCObject*);
     void onCreate(CCObject*);
+    void onTest(CCObject*);
     void onProfile(CCObject*);
     void keyBackClicked() override;
 
