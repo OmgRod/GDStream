@@ -1,3 +1,4 @@
+/*
 #ifndef RTMP_MANAGER_HPP
 #define RTMP_MANAGER_HPP
 
@@ -27,3 +28,4 @@ private:
 };
 
 #endif // RTMP_MANAGER_HPP
+*/
