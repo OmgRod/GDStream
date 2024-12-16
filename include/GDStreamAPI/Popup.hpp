@@ -21,14 +21,14 @@ namespace gdstream {
             scene->addChild(this);
 
             // Initially set the scale of the popup to 0
-            this->setScale(0);
+            this->getChildByID("contents")->setScale(0);
 
             // Create the scale animation with a bounce effect that lasts for 0.5 seconds
             auto scaleTo = CCScaleTo::create(0.2f, 1.0f); // 0.5 seconds duration
             auto bounce = CCEaseSineOut::create(scaleTo); // Apply bounce effect
 
             // Run the animation on the popup
-            this->runAction(bounce);
+            this->getChildByID("contents")->runAction(bounce);
         }
 
         bool init(const std::string& title, float width, float height) {
