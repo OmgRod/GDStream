@@ -56,6 +56,7 @@ void StreamLayer::onKofi(CCObject*) {
     auto kofiBtn = CCMenuItemSpriteExtra::create(
         kofiBtnSpr, this, menu_selector(StreamLayer::onKofiClicked)
     );
+    kofiBtn->setPosition({ contents->getContentWidth() * 0.5f, contents->getContentHeight() * 0.1f });
 
     contents->getChildByID("menu")->addChild(kofiBtn);
 
