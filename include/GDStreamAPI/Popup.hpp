@@ -42,7 +42,7 @@ namespace gdstream {
             }
 
             auto winSize = CCDirector::sharedDirector()->getWinSize();
-            auto centerPos = ccp(winSize.width / 2, winSize.height / 2);
+            auto centerPos = ccp(winSize.width / 4, winSize.height / 4);
 
             // Create a black fade background using CCLayerColor
             auto fadeBG = CCLayerColor::create(ccc4(0, 0, 0, 150));
