@@ -16,20 +16,30 @@ namespace gdstream {
         }
 
         void show() {
-            auto scene = CCDirector::sharedDirector()->getRunningScene();
-            this->setZOrder(scene->getHighestChildZ() + 1);
-            scene->addChild(this);
+    auto scene = CCDirector::sharedDirector()->getRunningScene();
+    this->setZOrder(scene->getHighestChildZ() + 1);
+    scene->addChild(this);
 
-            // Initially set the scale of the popup to 0
-            this->getChildByID("contents")->setScale(0);
+    // Attempt to get the "contents" node
+    auto contents = this->getChildByID("contents");
+    if (!contents) {
+        log::debug("Error: 'contents' node not found in popup.");
+        return; // Exit to avoid a crash
+    }
 
-            // Create the scale animation with a bounce effect that lasts for 0.5 seconds
-            auto scaleTo = CCScaleTo::create(0.2f, 1.0f); // 0.5 seconds duration
-            auto bounce = CCEaseSineOut::create(scaleTo); // Apply bounce effect
+    // Log success
+    log::debug("'contents' node found successfully.");
 
-            // Run the animation on the popup
-            this->getChildByID("contents")->runAction(bounce);
-        }
+    // Initially set the scale of "contents" to 0
+    contents->setScale(0);
+
+    // Create the scale animation with a bounce effect
+    auto scaleTo = CCScaleTo::create(0.2f, 1.0f);
+    auto bounce = CCEaseSineOut::create(scaleTo);
+
+    // Run the animation on "contents"
+    contents->runAction(bounce);
+}
 
         bool init(const std::string& title, float width, float height) {
             if (!CCLayer::init()) {
