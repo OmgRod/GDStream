@@ -5,7 +5,7 @@
 #include "StreamCreatorLayer.hpp"
 #include "StreamLayer.hpp"
 
-#include <GDAddons/GDAddons.hpp>
+#include <gd-addons/GDAddons.hpp>
 
 using namespace geode::prelude;
 using namespace gdaddons;

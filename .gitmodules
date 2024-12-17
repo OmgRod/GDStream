@@ -3,7 +3,7 @@
 	url = https://github.com/OmgRod/FFmpeg
 	branch = master
 
-[submodule "include/GDAddons"]
-	path = include/GDAddons
+[submodule "include/gd-addons"]
+	path = include/gd-addons
 	url = https://github.com/OmgRod/GDAddons
 	branch = main
