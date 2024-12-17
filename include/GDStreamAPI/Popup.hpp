@@ -42,30 +42,32 @@ namespace gdstream {
             }
 
             auto winSize = CCDirector::sharedDirector()->getWinSize();
-            auto centerPos = ccp(winSize.width / 4, winSize.height / 4);
 
-            // Create a black fade background using CCLayerColor
+            // Black fade background
             auto fadeBG = CCLayerColor::create(ccc4(0, 0, 0, 150));
             fadeBG->setContentSize(winSize);
             fadeBG->setPosition({0, 0});
-            this->addChild(fadeBG, 0); // Lowest Z-order, behind everything
+            this->addChild(fadeBG, 0); // Behind everything
 
-            // Contents layer
+            // Contents layer (centered in the screen)
             auto contents = CCLayer::create();
             contents->setContentSize({width, height});
-            contents->setPosition(centerPos);
+            contents->setAnchorPoint(ccp(0.5f, 0.5f)); // Center anchor point
+            contents->setPosition(ccp(winSize.width / 2, winSize.height / 2)); // Center of the screen
             contents->setID("contents");
-            this->addChild(contents, 1); // Higher Z-order
+            this->addChild(contents, 1);
 
             // Popup background
             auto bg = CCScale9Sprite::create("GJ_square01.png");
             bg->setContentSize({width, height});
-            bg->setPosition({width / 2, height / 2}); // Center it within contents
+            bg->setAnchorPoint(ccp(0.5f, 0.5f)); // Center anchor point
+            bg->setPosition(ccp(width / 2, height / 2)); // Center it within the contents layer
             contents->addChild(bg);
 
-            // Title label
+            // Title label (top-center of the popup background)
             auto titleLabel = CCLabelBMFont::create(title.c_str(), "bigFont.fnt");
-            titleLabel->setPosition(ccp(width / 2, height - 30)); // Top-center of background
+            titleLabel->setAnchorPoint(ccp(0.5f, 1.0f)); // Center horizontally, align to the top
+            titleLabel->setPosition(ccp(width / 2, height - 10)); // Slight offset from the top
             contents->addChild(titleLabel);
 
             return true;
