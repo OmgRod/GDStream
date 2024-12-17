@@ -3,6 +3,8 @@
 
 #include "layers/chatbox/ChatLayer.hpp"
 
+#include <gd-addons/GDAddons.hpp>
+
 using namespace geode::prelude;
 
 ChatLayer* chatLayer = nullptr;
@@ -19,6 +21,9 @@ $execute {
         }
         SceneManager::get()->keepAcrossScenes(chatLayer);
     }
+
+    auto btn = gdaddons::SwipableButton::create(CCSprite::create("GJ_button_01.png"));
+    SceneManager::get()->keepAcrossScenes(btn);
 }
 
 class $modify(MyPlayLayer, PlayLayer) {
