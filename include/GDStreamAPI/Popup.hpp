@@ -16,65 +16,57 @@ namespace gdstream {
         }
 
         void show() {
-    auto scene = CCDirector::sharedDirector()->getRunningScene();
-    this->setZOrder(scene->getHighestChildZ() + 1);
-    scene->addChild(this);
+            auto scene = CCDirector::sharedDirector()->getRunningScene();
+            this->setZOrder(scene->getHighestChildZ() + 1);
+            scene->addChild(this);
 
-    // Attempt to get the "contents" node
-    auto contents = this->getChildByID("contents");
-    if (!contents) {
-        log::debug("Error: 'contents' node not found in popup.");
-        return; // Exit to avoid a crash
-    }
+            // Get the "contents" node
+            auto contents = this->getChildByID("contents");
+            if (!contents) {
+                log::debug("Error: 'contents' node not found.");
+                return;
+            }
 
-    // Log success
-    log::debug("'contents' node found successfully.");
+            // Initially scale contents to 0
+            contents->setScale(0);
 
-    // Initially set the scale of "contents" to 0
-    contents->setScale(0);
-
-    // Create the scale animation with a bounce effect
-    auto scaleTo = CCScaleTo::create(0.2f, 1.0f);
-    auto bounce = CCEaseSineOut::create(scaleTo);
-
-    // Run the animation on "contents"
-    contents->runAction(bounce);
-}
+            // Animate "contents" with a bounce effect
+            auto scaleTo = CCScaleTo::create(0.2f, 1.0f);
+            auto bounce = CCEaseBackOut::create(scaleTo);
+            contents->runAction(bounce);
+        }
 
         bool init(const std::string& title, float width, float height) {
             if (!CCLayer::init()) {
                 return false;
             }
 
-            // Get the window size and compute the center position
             auto winSize = CCDirector::sharedDirector()->getWinSize();
-            auto winSizeHalf = ccp(winSize.width / 2, winSize.height / 2);
-            
-            auto fadeBG = CCScale9Sprite::create("popupBG.png"_spr);
+            auto centerPos = ccp(winSize.width / 2, winSize.height / 2);
+
+            // Create a black fade background using CCLayerColor
+            auto fadeBG = CCLayerColor::create(ccc4(0, 0, 0, 150));
             fadeBG->setContentSize(winSize);
-            fadeBG->setPosition(winSizeHalf);
-            this->addChild(fadeBG);
+            fadeBG->setPosition({0, 0});
+            this->addChild(fadeBG, 0); // Lowest Z-order, behind everything
 
-            // Create the content layer inside the popup
-            auto contentLayer = CCLayer::create();
-            contentLayer->setContentSize({ width, height });
-            contentLayer->setPosition({ 0, 0 });
-            contentLayer->setID("contents");
-            contentLayer->setZOrder(1);
-            this->addChild(contentLayer);
+            // Contents layer
+            auto contents = CCLayer::create();
+            contents->setContentSize({width, height});
+            contents->setPosition(centerPos);
+            contents->setID("contents");
+            this->addChild(contents, 1); // Higher Z-order
 
-            // Create the background sprite (same as the popup's background)
+            // Popup background
             auto bg = CCScale9Sprite::create("GJ_square01.png");
-            bg->setContentSize({ width, height });
-            bg->setPosition(winSizeHalf);
-            contentLayer->setID("background");
-            contentLayer->addChild(bg);
+            bg->setContentSize({width, height});
+            bg->setPosition({width / 2, height / 2}); // Center it within contents
+            contents->addChild(bg);
 
-            // Add the title label to the content layer
+            // Title label
             auto titleLabel = CCLabelBMFont::create(title.c_str(), "bigFont.fnt");
-            titleLabel->setPosition(ccp(winSizeHalf.x, winSizeHalf.y + 50)); // Position relative to content layer
-            bg->setID("title");
-            contentLayer->addChild(titleLabel);
+            titleLabel->setPosition(ccp(width / 2, height - 30)); // Top-center of background
+            contents->addChild(titleLabel);
 
             return true;
         }
