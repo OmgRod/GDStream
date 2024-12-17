@@ -5,10 +5,10 @@
 #include "StreamCreatorLayer.hpp"
 #include "StreamLayer.hpp"
 
-#include <GDStreamAPI/Popup.hpp>
+#include <GDAddons/GDAddons.hpp>
 
 using namespace geode::prelude;
-using namespace gdstream;
+using namespace gdaddons;
 
 StreamLayer::StreamLayer() = default;
 StreamLayer::~StreamLayer() = default;
@@ -30,7 +30,7 @@ void StreamLayer::onCreate(CCObject*) {
 
 void StreamLayer::onTest(CCObject*) {
     auto winSize = CCDirector::sharedDirector()->getWinSize();
-    auto popup = gdstream::Popup::create("Test Popup", winSize.width * 0.7, winSize.height * 0.8);
+    auto popup = gdaddons::Popup::create("Test Popup", winSize.width * 0.7, winSize.height * 0.8);
     popup->show();
 }
 
