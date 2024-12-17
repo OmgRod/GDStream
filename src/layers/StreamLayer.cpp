@@ -2,6 +2,7 @@
 #include <Geode/ui/ScrollLayer.hpp>
 #include <Geode/ui/Layout.hpp>
 #include <Geode/ui/GeodeUI.hpp>
+#include <Geode/utils/web.hpp>
 #include "StreamCreatorLayer.hpp"
 #include "StreamLayer.hpp"
 
@@ -28,9 +29,36 @@ void StreamLayer::onCreate(CCObject*) {
     CCDirector::sharedDirector()->pushScene(transition);
 }
 
-void StreamLayer::onTest(CCObject*) {
+void StreamLayer::onKofiClicked(CCObject*) {
+    geode::utils::web::openLinkInBrowser("https://ko-fi.com/omgrod");
+}
+
+void StreamLayer::onKofi(CCObject*) {
     auto winSize = CCDirector::sharedDirector()->getWinSize();
-    auto popup = gdaddons::Popup::create("Test Popup", winSize.width * 0.7, winSize.height * 0.8);
+    auto popup = gdaddons::Popup::create("Support me on Ko-Fi!", winSize.width * 0.7f, winSize.height * 0.8f);
+    auto contents = popup->getChildByID("contents");
+
+    auto text = TextArea::create(
+        "If you support me, you will get the following benefits:\n- 5 streams on your profile\n- More updates", // The actual message
+        "bigFont.fnt",
+        0.4f,
+        popup->getChildByID("contents")->getContentWidth() - (winSize.width * 0.1),
+        { 0.f, 0.f },
+        winSize.height * 0.05,
+        false
+    );
+    text->setContentSize({ 0.f, 0.f });
+    text->setPosition({ contents->getContentWidth() * 0.1f, contents->getContentHeight() * 0.4f });
+
+    contents->addChild(text);
+    
+    auto kofiBtnSpr = ButtonSprite::create("Donate!");
+    auto kofiBtn = CCMenuItemSpriteExtra::create(
+        kofiBtnSpr, this, menu_selector(StreamLayer::onKofiClicked)
+    );
+
+    contents->getChildByID("menu")->addChild(kofiBtn);
+
     popup->show();
 }
 
@@ -98,17 +126,17 @@ bool StreamLayer::init() {
     topbar->setLayout(layout);
     topbar->setID("topbar");
 
-    auto testBtn = CCMenuItemSpriteExtra::create(
+    auto kofiBtn = CCMenuItemSpriteExtra::create(
         CircleButtonSprite::create(
-            CCSprite::create("chatIcon01.png"_spr),
+            CCSprite::create("kofiLogo01.png"_spr),
             CircleBaseColor::Green,
             CircleBaseSize::Tiny
         ),
         this,
-        menu_selector(StreamLayer::onTest)
+        menu_selector(StreamLayer::onKofi)
     );
-    testBtn->setID("test-btn");
-    topbar->addChild(testBtn);
+    kofiBtn->setID("kofi-btn");
+    topbar->addChild(kofiBtn);
 
     auto addBtn = CCMenuItemSpriteExtra::create(
         CircleButtonSprite::create(

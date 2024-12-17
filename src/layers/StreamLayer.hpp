@@ -12,7 +12,8 @@ public:
     void onBack(CCObject*);
     void onSettings(CCObject*);
     void onCreate(CCObject*);
-    void onTest(CCObject*);
+    void onKofiClicked(CCObject*);
+    void onKofi(CCObject*);
     void onProfile(CCObject*);
     void keyBackClicked() override;
 
