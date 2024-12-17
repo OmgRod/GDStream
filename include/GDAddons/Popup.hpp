@@ -53,6 +53,7 @@ namespace gdaddons {
             contents->setAnchorPoint(ccp(0.5f, 0.5f));
             contents->setPosition(ccp(winSize.width / 2, winSize.height / 2));
             contents->setID("contents");
+            contents->ignoreAnchorPointForPosition(false);
             this->addChild(contents, 1);
 
             auto bg = CCScale9Sprite::create("GJ_square01.png");
