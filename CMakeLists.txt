@@ -28,6 +28,9 @@ endif()
 CPMAddPackage("gh:machinezone/IXWebSocket#master")
 target_link_libraries(${PROJECT_NAME} ixwebsocket)
 
+CPMAddPackage("gh:FireMario211/dashauth#main")
+target_link_libraries(${PROJECT_NAME} DashAuth)
+
 add_subdirectory($ENV{GEODE_SDK} ${CMAKE_CURRENT_BINARY_DIR}/geode)
 
 setup_geode_mod(${PROJECT_NAME})

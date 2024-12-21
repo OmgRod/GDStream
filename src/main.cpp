@@ -1,8 +1,6 @@
 #include <Geode/Geode.hpp>
 #include <Geode/modify/PlayLayer.hpp>
-
 #include "layers/chatbox/ChatLayer.hpp"
-
 #include <gd-addons/GDAddons.hpp>
 
 using namespace geode::prelude;
@@ -21,9 +19,6 @@ $execute {
         }
         SceneManager::get()->keepAcrossScenes(chatLayer);
     }
-
-    auto btn = gdaddons::SwipableButton::create(CCSprite::create("GJ_button_01.png"));
-    SceneManager::get()->keepAcrossScenes(btn);
 }
 
 class $modify(MyPlayLayer, PlayLayer) {
@@ -89,7 +84,17 @@ $execute {
 #endif
 
 #if defined(GEODE_IS_ANDROID) && defined(GEODE_IS_MAC)
+/*
+$execute {
+    // Create the CustomSwipableButton
+    auto btn = gdaddons::CustomSwipableButton::create(CCSprite::create("GJ_button_01.png"));
 
+    // Add the button to the current scene
+    auto scene = CCDirector::sharedDirector()->getRunningScene();
+    scene->addChild(btn);
 
-
+    // Keep the button across scenes
+    SceneManager::get()->keepAcrossScenes(btn);
+}
+*/
 #endif

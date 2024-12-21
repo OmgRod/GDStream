@@ -7,9 +7,11 @@
 #include "StreamLayer.hpp"
 
 #include <gd-addons/GDAddons.hpp>
+#include <dashauth.hpp>
 
 using namespace geode::prelude;
 using namespace gdaddons;
+using namespace dashauth;
 
 StreamLayer::StreamLayer() = default;
 StreamLayer::~StreamLayer() = default;
@@ -24,9 +26,18 @@ void StreamLayer::onSettings(CCObject*) {
 
 void StreamLayer::onCreate(CCObject*) {
     // FLAlertLayer::create("GDStream", "This feature is coming soon!", "OK")->show();
-    auto scene = StreamCreatorLayer::scene();
-    auto transition = CCTransitionFade::create(0.5f, scene);
-    CCDirector::sharedDirector()->pushScene(transition);
+
+    // auto scene = StreamCreatorLayer::scene();
+    // auto transition = CCTransitionFade::create(0.5f, scene);
+    // CCDirector::sharedDirector()->pushScene(transition);
+
+    DashAuthRequest().getToken(Mod::get(), "http://localhost:3000/api/v1")->except([](const std::string& error) {
+        log::info("Failed to get token :c - {}", error);
+        FLAlertLayer::create("DashAuth Error", fmt::format("Failed to get token: {}", error), "OK")->show();
+    })->then([](std::string const& token) {
+        log::info("Got token!! {} :3", token);
+        FLAlertLayer::create("meow", fmt::format("{}", token), "bomb brazil")->show();
+    });
 }
 
 void StreamLayer::onKofiClicked(CCObject*) {
