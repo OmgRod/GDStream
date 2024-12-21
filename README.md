@@ -25,6 +25,8 @@ For more info, see [our docs](https://docs.geode-sdk.org/getting-started/create-
 geode build
 ```
 
+[Server](https://github.com/OmgRod/GDStreamServer)
+
 # Resources
 * [Geode SDK Documentation](https://docs.geode-sdk.org/)
 * [Geode SDK Source Code](https://github.com/geode-sdk/geode/)
